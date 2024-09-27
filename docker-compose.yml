@@ -1,0 +1,31 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - SA_PASSWORD=SecurePass2024!
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - backend
+    restart: always
+
+  app:
+    build: .
+    container_name: data_processor
+    depends_on:
+      - sqlserver
+    networks:
+      - backend
+    volumes:
+      - .:/app
+
+volumes:
+  mssql_data:
+
+networks:
+  backend:
+    driver: bridge

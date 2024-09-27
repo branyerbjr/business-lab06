@@ -1,2 +1,0 @@
-CREATE DATABASE lab06db;
-GO
